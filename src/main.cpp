@@ -46,17 +46,22 @@ void pExec(char* str, int flag)
 {
 	PROCESS_INFORMATION pi;
 	STARTUPINFO si;
+    int ret;
 	ZeroMemory(&si, sizeof(si));
 	si.cb = sizeof(si);
-    if(CreateProcess(nullptr, str, nullptr, nullptr, FALSE, NORMAL_PRIORITY_CLASS, nullptr, nullptr, &si, &pi)){
+    if(ret = CreateProcess(nullptr, str, nullptr, nullptr, FALSE, NORMAL_PRIORITY_CLASS, nullptr, nullptr, &si, &pi)){
         LPTSTR lpBuffer = NULL;
         FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
             NULL, GetLastError(), LANG_USER_DEFAULT,
             (LPTSTR)&lpBuffer, 0, NULL);
         char msg[1024] ="";
+        char retStr[8]="";
+        itoa(ret, retStr,10);
         strcat(msg, lpBuffer);
-        strcat(msg, "\n");
+        strcat(msg, "\r\n");
         strcat(msg, str);
+        strcat(msg, "\r\n");
+        strcat(msg, retStr);
         char cBuff[256] = "";
         GetConsoleTitle(cBuff, 256);
         MessageBox(FindWindow(NULL, cBuff), msg, "CreateProcess Error Message", MB_ICONHAND | MB_OK);
