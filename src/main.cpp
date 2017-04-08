@@ -22,7 +22,7 @@ std::string getConfigPath(){
         FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
             NULL, GetLastError(), LANG_USER_DEFAULT,
             (LPTSTR)&lpBuffer, 0, NULL);
-        MessageBox(NULL, lpBuffer, "Last Error Message", MB_ICONHAND | MB_OK);
+        MessageBox(NULL, lpBuffer, "RegOpenKeyEx Error Message", MB_ICONHAND | MB_OK);
         LocalFree(lpBuffer);
         return NULL;
     }
@@ -48,7 +48,17 @@ void pExec(char* str, int flag)
 	STARTUPINFO si;
 	ZeroMemory(&si, sizeof(si));
 	si.cb = sizeof(si);
-	CreateProcess(nullptr, str, nullptr, nullptr, FALSE, NORMAL_PRIORITY_CLASS, nullptr, nullptr, &si, &pi);
+    if(CreateProcess(nullptr, str, nullptr, nullptr, FALSE, NORMAL_PRIORITY_CLASS, nullptr, nullptr, &si, &pi)){
+        LPTSTR lpBuffer = NULL;
+        FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
+            NULL, GetLastError(), LANG_USER_DEFAULT,
+            (LPTSTR)&lpBuffer, 0, NULL);
+        MessageBox(NULL, lpBuffer, "CreateProcess Error Message", MB_ICONHAND | MB_OK);
+        LocalFree(lpBuffer);
+        return NULL;
+    }
+    //ÉfÅ[É^ÇéÊìæ
+
 	CloseHandle(pi.hThread);
 	if (flag)
 	{
