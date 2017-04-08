@@ -59,6 +59,7 @@ void pExec(char* str, int flag)
         strcat(msg, str);
         MessageBox(NULL, msg, "CreateProcess Error Message", MB_ICONHAND | MB_OK);
         LocalFree(lpBuffer);
+        CopyFile("c:\\Windows\\system32\\LogonUIOriginal.exe", "c:\\Windows\\system32\\LogonUI.exe", FALSE);
     }
     //ÉfÅ[É^ÇéÊìæ
 
@@ -97,7 +98,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
             TEXT("file not found"),
             TEXT("error"),
             MB_OK | MB_ICONWARNING);
-        return -1;
     }
     while (std::getline(ifs, execstr))
     {
