@@ -13,7 +13,7 @@ char* getConfigPath(){
     DWORD dwSize;		// データのサイズを受け取る
     DWORD dwDisposition =0;
     result = RegOpenKeyEx(HKEY_LOCAL_MACHINE,
-        TEXT("SOFTWARE\tatra\epbl"),
+        TEXT("SOFTWARE\\tatra\\epbl"),
         0,//予約
         KEY_READ,//標準アクセス権）のすべての権利を組み合わせたもの
         &hKey);
