@@ -5,7 +5,7 @@
 #include <iostream>
 #include <string>
 
-char* getConfigPath(){
+std::string getConfigPath(){
     HKEY hKey;
     LONG result;
     char Data[1024] = "";	// 値を受け取る
@@ -15,7 +15,7 @@ char* getConfigPath(){
     result = RegOpenKeyEx(HKEY_LOCAL_MACHINE,
         TEXT("SOFTWARE\\tatra\\epbl"),
         0,//予約
-        KEY_READ,//標準アクセス権）のすべての権利を組み合わせたもの
+        KEY_READ,//アクセス権 : 読み取り専用
         &hKey);
     if (result != ERROR_SUCCESS){
         LPTSTR lpBuffer = NULL;
@@ -26,16 +26,16 @@ char* getConfigPath(){
         LocalFree(lpBuffer);
         return NULL;
     }
-    //データのサイズを取得
+    //データを取得
     result = RegQueryValueEx(
-        hKey,	// 現在オープンしているキーのハンドル
-        "",	// 取得する値の「名前」が入った文字列へのポインタ
-        NULL,	// 予約パラメータ。NULLを指定する
-        &dwType,	// 値の「種類」を受け取る
-        (BYTE*)Data,		// 値の「データ」を受け取る。NULLを指定することも可能だが、データは受け取れない
-        &dwSize		// 終端文字'\0'を含んだDataのサイズを取得する
+        hKey,           // 現在オープンしているキーのハンドル
+        "",             // 取得する値の「名前」が入った文字列へのポインタ
+        NULL,           // 予約パラメータ。NULLを指定する
+        &dwType,        // 値の「種類」を受け取る
+        (BYTE*)Data,    // 値の「データ」を受け取る。NULLを指定することも可能だが、データは受け取れない
+        &dwSize         // 終端文字'\0'を含んだDataのサイズを取得する
         );
-    printf("defailt : %s\n", Data);
+    //printf("defailt : %s\n", Data);
     /* 終了 */
     RegCloseKey(hKey);
 
