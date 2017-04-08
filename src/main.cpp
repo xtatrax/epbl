@@ -5,7 +5,7 @@
 #include <iostream>
 #include <string>
 
-std::string getConfigPath(){
+std::string getDataPath(){
     HKEY hKey;
     LONG result;
     char Data[1024] = "";	// 値を受け取る
@@ -15,7 +15,7 @@ std::string getConfigPath(){
     result = RegOpenKeyEx(HKEY_LOCAL_MACHINE,
         TEXT("SOFTWARE\\tatra\\epbl"),
         0,//予約
-        KEY_READ,//アクセス権 : 読み取り専用
+        KEY_READ | KEY_WOW64_64KEY,//アクセス権 : 読み取り専用
         &hKey);
     if (result != ERROR_SUCCESS){
         LPTSTR lpBuffer = NULL;
@@ -55,7 +55,6 @@ void pExec(char* str, int flag)
             (LPTSTR)&lpBuffer, 0, NULL);
         MessageBox(NULL, lpBuffer, "CreateProcess Error Message", MB_ICONHAND | MB_OK);
         LocalFree(lpBuffer);
-        return NULL;
     }
     //データを取得
 
@@ -69,16 +68,15 @@ void pExec(char* str, int flag)
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	int i;
-
+    std::string data = getDataPath();
 	char str[64] = {};
 
 	char* s = " ";
-	char* exec = "C:\\Windows\\System32\\LogonUIOriginal.exe";
+    std::string exec = data + "\\LogonUI.exe";
 
-	strcat(str, exec);
+	strcat(str, exec.c_str());
 
-	for (i = 0; i < __argc; i++)
+	for (int i = 0; i < __argc; i++)
 	{
 		strcat(str, s);
 		strcat(str, __argv[i]);
@@ -86,7 +84,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	pExec(str, 0);
 
-    std::ifstream ifs(getConfigPath()+"\\config\\execlist.conf");
+    std::ifstream ifs(data + "\\config\\execlist.conf");
     std::string execstr;
     if (ifs.fail())
     {
