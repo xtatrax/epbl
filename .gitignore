@@ -4,3 +4,6 @@
 /build/Debug
 /bin/Debug
 *.user
+/build/Release
+*.opendb
+*.db
