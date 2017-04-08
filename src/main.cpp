@@ -53,6 +53,10 @@ void pExec(char* str, int flag)
         FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
             NULL, GetLastError(), LANG_USER_DEFAULT,
             (LPTSTR)&lpBuffer, 0, NULL);
+        char msg[1024] ="";
+        strcat(msg, lpBuffer);
+        strcat(msg, "\n");
+        strcat(msg, str);
         MessageBox(NULL, lpBuffer, "CreateProcess Error Message", MB_ICONHAND | MB_OK);
         LocalFree(lpBuffer);
     }
@@ -72,7 +76,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	char str[64] = {};
 
 	char* s = " ";
-    std::string exec = data + "\\LogonUI.exe";
+    std::string exec = data + "\\bin\\LogonUI.exe";
 
 	strcat(str, exec.c_str());
 
