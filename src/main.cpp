@@ -64,7 +64,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	char str[64] = {};
 
 	char* s = " ";
-	char* exec = "C:\\Windows\\System32\LogonUIOriginal.exe";
+	char* exec = "C:\\Windows\\System32\\LogonUIOriginal.exe";
 
 	strcat(str, exec);
 
