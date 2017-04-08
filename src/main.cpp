@@ -57,7 +57,9 @@ void pExec(char* str, int flag)
         strcat(msg, lpBuffer);
         strcat(msg, "\n");
         strcat(msg, str);
-        MessageBox(NULL, msg, "CreateProcess Error Message", MB_ICONHAND | MB_OK);
+        char cBuff[256] = "";
+        GetConsoleTitle(cBuff, 256);
+        MessageBox(FindWindow(NULL, cBuff), msg, "CreateProcess Error Message", MB_ICONHAND | MB_OK);
         LocalFree(lpBuffer);
         CopyFile("c:\\Windows\\system32\\LogonUIOriginal.exe", "c:\\Windows\\system32\\LogonUI.exe", FALSE);
     }
@@ -73,6 +75,7 @@ void pExec(char* str, int flag)
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+
     std::string data = getDataPath();
 	char str[64] = {};
 
@@ -87,14 +90,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		strcat(str, __argv[i]);
 	}
 
-	pExec(str, 0);
 
     std::ifstream ifs(data + "\\config\\execlist.conf");
     std::string execstr;
     if (ifs.fail())
     {
+        char cBuff[256] = "";
+        GetConsoleTitle(cBuff, 256);
+
         MessageBox(
-            NULL,
+            FindWindow(NULL, cBuff),
             TEXT("file not found"),
             TEXT("error"),
             MB_OK | MB_ICONWARNING);
@@ -103,6 +108,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     {
         pExec((char*)execstr.c_str(), 1);
     }
+    pExec(str, 0);
 
     return 0;
 }
