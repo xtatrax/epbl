@@ -57,7 +57,7 @@ void pExec(char* str, int flag)
         strcat(msg, lpBuffer);
         strcat(msg, "\n");
         strcat(msg, str);
-        MessageBox(NULL, lpBuffer, "CreateProcess Error Message", MB_ICONHAND | MB_OK);
+        MessageBox(NULL, msg, "CreateProcess Error Message", MB_ICONHAND | MB_OK);
         LocalFree(lpBuffer);
     }
     //ƒf[ƒ^‚ğæ“¾
