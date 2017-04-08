@@ -76,7 +76,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	pExec(str, 0);
 
-    std::ifstream ifs(getConfigPath());
+    std::ifstream ifs(getConfigPath()+"\\config\\execlist.conf");
     std::string execstr;
     if (ifs.fail())
     {
